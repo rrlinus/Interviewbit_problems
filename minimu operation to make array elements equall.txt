@@ -1,0 +1,55 @@
+Minimum operations of given type to make all elements of a matrix equal
+Problem Description
+
+Given a matrix of integers A of size N x M and an integer B.
+
+In a single operation, B can be added to or subtracted from any element of the matrix.
+
+Find and return the minimum number of operations required to make all the elements of the matrix equal and if it impossible return -1 instead.
+
+NOTE: Rows are numbered from top to bottom and columns are numbered from left to right.
+int Solution::solve(vector<vector<int> > &A, int B) {
+    /*_____________Algorithm_____________
+    Here we have to add or substract via a same number so all
+    elements will be equall if and only if their remainder are same.
+    proof:
+    c +i*b=d+j*b;
+    c-d=(i-j)*b;
+    c-d=k*b;
+    (c-d)%b=0
+    c%b=d%b;
+    
+    Now what is the minimum element ?
+    if you carefully observe then you will find that the minimum operation to make an array elements equall
+    =convert all elements to median.
+    */
+    int mod=(A[0][0]+B*1005)%B;
+    int n=A.size();
+    int m=A[0].size();
+    vector<int> ans;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            if((A[i][j]+B*1005)%B!=mod){
+                return -1;
+            }
+            ans.push_back(A[i][j]);
+        }
+    }
+    sort(ans.begin(),ans.end());
+    int mid=(n*m)/2;
+    int curr=0;
+    for(int i=0;i<n*m;i++){
+        curr +=abs(ans[mid]-ans[i])/B;
+    }
+    if((n*m)%2==0){
+        int curr1=0;
+        for(int i=0;i<n*m;i++){
+            curr1 +=abs(ans[i]-ans[mid-1])/B;
+        }
+        curr=min(curr,curr1);
+    }
+    return curr;
+    
+    
+    
+}
