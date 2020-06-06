@@ -1,0 +1,41 @@
+Problem statement:
+Design a data structure that supports insert,search,delete and get random in O(1) operation.
+
+
+solution:
+we all know that in hashing we do insert search and delete operation in o(1) but we can't get random element in 0(1).
+
+but we all know that we will make our custom data structure using existing datastructure.
+
+But How?
+
+so let's first think about the time complexity of our existing data structure.
+
+stack/queue insert -o(1)
+      search -o(n)
+      pop    -o(1)
+      getrandom()-o(1)
+
+array/linked list insert: o(1) some operation takes n time but we always consider amortized time complexity.
+
+                   search O(n)
+                    
+                    delete o(1)
+                    getrandom o(1)
+
+Now if we observe then we find that we use hashing + array
+
+
+ search -O(1) just go to that index and check.
+ insert -0(1) insert at that index as well as last element in the array.
+ getrandom -o(1) return any random element from our array.
+
+delete is a little tricky!
+
+when we delete any element then swap that element with the last element of the array and pop as well as that element to null mark null in hash.
+
+
+
+
+
+
