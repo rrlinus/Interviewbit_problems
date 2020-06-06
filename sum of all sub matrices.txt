@@ -1,0 +1,31 @@
+Given a 2D Matrix A of dimensions N*N, we need to return sum of all possible submatrices.
+int Solution::solve(vector<vector<int> > &A) {
+    /* ...............Algorithm..............
+    Here idea is to find how many times a particular element
+    occurs in a all the sub matrix.
+    
+    so let's first try to find how many times (i,j) occurs in the submatrix.
+    
+    so (i,j) only comes into my answer if and only if top most left element of the submatrix
+    are on the top-left side of (i,j) and bottommost right element of submatrix(i,j) on the bttom-right side.
+ |                 |
+ |  top-most left  |
+    
+    |---------
+    |  (i,j)
+             | 
+    ---------|bottom-most right
+    
+ |                 |
+ |                 |
+ */
+int n=A.size();
+int m=A[0].size();
+int ans=0;
+for(int i=0;i<n;i++){
+    for(int j=0;j<m;j++){
+        ans +=(i+1)*(j+1)*(n-i)*(n-j)*A[i][j];
+    }
+}
+return ans;   
+}

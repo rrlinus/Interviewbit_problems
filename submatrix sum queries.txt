@@ -1,0 +1,54 @@
+Given a matrix of integers A of size N x M and multiple queries Q, for each query find and return the submatrix sum.
+
+Inputs to queries are top left (b, c) and bottom right (d, e) indexes of submatrix whose sum is to find out.
+
+NOTE:
+
+Rows are numbered from top to bottom and columns are numbered from left to right.
+
+
+Sum may be large so return the answer mod 109 + 7.
+
+
+
+class Solution:
+    # @param A : list of list of integers
+    # @param B : list of integers
+    # @param C : list of integers
+    # @param D : list of integers
+    # @param E : list of integers
+    # @return a list of integers
+    
+    
+# ...........ALGORITHM..............    
+# let us calculate the sum from (0,0) to (i,j); this operation is like precomputation
+
+# somehow if we are able to calculate the sum from (0,0) to (i,j) then we can calulate the sum
+
+# from (a,b) to (c,d)  but how?
+
+# sum((a,b),(c,d)) =sum(c,d)-sum(c,b)-sum(a,d)+sum(a,b) where sum(x,y) represents the sum from (0,0)
+# to (x,y)
+
+
+    def solve(self, A, B, C, D, E):
+        for i in range(len(A)):
+            for j in range(1,len(A[0])):
+                A[i][j] =(A[i][j]+A[i][j-1])%1000000007;
+        for i in range(len(A[0])):
+            for j in range(1,len(A)):
+                A[j][i] =(A[j][i]+A[j-1][i])%1000000007;
+        l=[0]*len(B)
+        for i in range(len(B)):
+            ans=0
+            ans=(ans+A[D[i]-1][E[i]-1])%1000000007;
+            if B[i]-2>=0:
+                ans =(ans-A[B[i]-2][E[i]-1])%1000000007
+            if C[i]-2>=0:
+                ans =(ans-A[D[i]-1][C[i]-2])%1000000007;
+            if B[i]-2 >=0 and C[i]-2>=0:
+                ans =(ans+A[B[i]-2][C[i]-2])%1000000007;
+            l[i]=ans%1000000007;
+                
+        return l
+            
