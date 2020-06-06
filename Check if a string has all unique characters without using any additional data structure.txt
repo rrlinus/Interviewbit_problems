@@ -1,0 +1,27 @@
+Check if a string has all unique characters without using any additional data structure
+
+solution:Here idea is to use bit masking as we know that maximum different types of characters here are 26 so.
+
+we will take an integer of 32 bit and set it zero.
+
+if any character like 'a' occures in the string then first we will check that the 0th bit is set or not if already set it means that 
+
+we have already found this character and return false.
+
+else set oth bit to 1.
+
+#include <bits/stdc++.h>
+using namespace std;
+int main(){
+    string s;
+    cin>>s;
+    int bit=0;
+    for(int i=0;i<s.length();i++){
+        int b=(s[i]-'a');
+        if(bit &(1<<b)){
+            return false;
+        }
+        bit |=(1<<b);
+    }
+    return true;
+}
