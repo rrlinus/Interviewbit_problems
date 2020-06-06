@@ -1,0 +1,85 @@
+Given a set of non-overlapping intervals, insert a new interval into the intervals (merge if necessary).
+
+You may assume that the intervals were initially sorted according to their start times.
+
+
+# Definition for an interval.
+# class Interval:
+#     def __init__(self, s=0, e=0):
+#         self.start = s
+#         self.end = e
+# from __future__ import print_function
+class Solution:
+    # @param intervals, a list of Intervals
+    # @param new_interval, a Interval
+    # @return a list of Interval
+    
+    # ---------Algorithm---------------
+    # Here idea is to consider all the conditions:
+        # ____          __________   __________    _____     _____               _______
+        #   ______    _______          ______    __________        _____    ____
+        # just check it using if and else statement only.
+    
+    def insert(self, intervals, new_interval):  
+        int=[];
+        if new_interval.start>new_interval.end:
+            new_interval.start,new_interval.end=new_interval.end,new_interval.start;
+        x=Interval(-1,-1)
+        x.start=-1
+        x.end=-1
+        f=0
+        if len(intervals)==0 or intervals[0].start>new_interval.end:
+            x.start=new_interval.start
+            x.end=new_interval.end
+            int.append(x)
+            f=1
+        for i in range(len(intervals)):
+            if x.start!=-1 and x.end!=-1 and f==0:
+                int.append(x);
+                f=1
+            if (i+1<len(intervals) and intervals[i].end<new_interval.start and intervals[i+1].start>new_interval.end):
+                x.start=new_interval.start;
+                x.end=new_interval.end
+                # f=1
+            if intervals[i].end<new_interval.start or intervals[i].start>new_interval.end:
+                int.append(intervals[i])
+            elif new_interval.start>=intervals[i].start and new_interval.end<=intervals[i].end:
+                x.start=intervals[i].start;
+                x.end=intervals[i].end;
+            elif intervals[i].start>=new_interval.start and intervals[i].end<=new_interval.end:
+                    if x.start==-1:
+                        x.start=new_interval.start;
+                    if x.end==-1 and (intervals[i].end==new_interval.end or (i+1<len(intervals) and intervals[i].start>new_interval.end)):
+                        x.end=new_interval.end;
+            elif intervals[i].start<new_interval.start and intervals[i].end>new_interval.start:
+                if x.start==-1:
+                    x.start=intervals[i].start;
+            elif intervals[i].start<new_interval.end and intervals[i].end>new_interval.end:
+                if x.end==-1:
+                    x.end=intervals[i].end;
+        if x.start==-1:
+            x.start=new_interval.start;
+        if x.end==-1:
+            x.end=new_interval.end;
+        # print(x.start)
+        if f==0:
+            int.append(x)
+        return int
+        
+        
+            
+                
+                
+                
+            
+                        
+        
+        
+        
+        
+                
+                
+                    
+                
+                
+        

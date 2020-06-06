@@ -1,0 +1,35 @@
+Given an array of integers A, sort the array into a wave like array and return it, In other words, arrange the elements into a sequence such that a1 >= a2 <= a3 >= a4 <= a5.....
+
+NOTE : If there are multiple answers possible, return the one that's lexicographically smallest.
+vector<int> Solution::wave(vector<int> &A) {
+    /*
+      a1>=a2<=a3>=a4<=a5....
+      since even elements is always less than or equall to even elements 
+       
+      this solution provide an answer in that order as the input order.
+      let say x,y,z,w are the elements of the array.
+      if x<=y then swap hence y>=x here x is now smaller than y
+      y x z w
+       
+      if x>z then swap x<=z since x is already smaller so after swapping agin satisy their condition.
+      
+      
+      if you want lexixographically order then first sort the input array then apply all the above conditions.
+      
+    */
+    int n=A.size();
+    sort(A.begin(),A.end());
+    for(int i=0;i<n-1;i++){
+        if(i%2==0){
+            if(A[i]<=A[i+1]){
+                swap(A[i],A[i+1]);
+            }
+        }
+        else{
+            if(A[i]>=A[i+1]){
+                swap(A[i],A[i+1]);
+            }
+        }
+    }
+    return A;
+}
