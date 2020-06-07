@@ -1,0 +1,24 @@
+You are given 2 numbers P and Q.
+
+An operation on these 2 numbers is defined as follows: Take the smaller number of the 2 numbers and subtract it from the bigger number. Keep performing this operation till either of the following criterion is met:
+
+Both numbers become equal.
+Either of the number becomes 0.
+Find the sum of the final values of P and Q.
+
+int Solution::getFinal(int A, int B) {
+    
+    /* .........Algorithm............
+     A,B suppose A>B.
+     A-B=C;
+     A=B+C;
+     let say k be the number which divides both.
+     since A%k=0 hence (A+C)%k=0;
+     which is gcd(A,B)=k;
+     Note: When A==B we will substract one from other then finally we will get (A,0).
+    */
+    if(A==0 or B==0){
+        return A+B;
+    }
+    return 2*__gcd(A,B)
+}

@@ -1,0 +1,13 @@
+Scooby has 3 three integers A, B and C.
+
+Scooby calls a positive integer special if it is divisible by B and it is divisible by C. You need to tell number of special integers less than or equal to A.
+
+int Solution::solve(int A, int B, int C) {
+    /*_____Algorithm_______
+    defination of lcm(B,C):Minimum number which is divisible by both B,C.
+    
+    */
+    long int lcm=(B*C)/__gcd(B,C);
+    return A/lcm;
+}
+

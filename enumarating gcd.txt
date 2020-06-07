@@ -1,0 +1,19 @@
+You are given a number A and a number B. Greatest Common Divisor (GCD) of all numbers between A and B inclusive is taken (GCD(A, A+1, A+2 ... B)).
+As this problem looks a bit easy, it is given that numbers A and B can be in the range of 10100.
+
+You have to return the value of GCD found.
+
+Greatest common divisor of 2 numbers A and B is the largest number D that divides both A and B perfectly.
+
+string Solution::solve(string A, string B) {
+    /*........Algorithm..........
+     if A is even then A+1 must be odd and gcd(even,odd) is=1
+     similarly if A is odd and A+1 is even then gcd(even,odd)=1
+     so if A,A then gcd(A,A)=A;
+    
+    */
+    if(A==B){
+        return A;
+    }
+    return "1";
+}
