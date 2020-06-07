@@ -1,0 +1,42 @@
+Problem Description
+
+Given an integer A which denotes the number of people standing in the queue.
+
+A selection process follows a rule where people standing on even positions are selected. Of the selected people a queue is formed and again out of these only people on even position are selected.
+
+This continues until we are left with one person. Find and return the position of that person in the original queue.
+
+int Solution::solve(int A) {
+    /*--------------Algorithm----------
+    we know that we have to choose even positions.so it means that even postion elements gets divided each time.
+    so example:
+    
+    1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17
+                                      
+                                index:1 2 3 4 5  6  7 8 
+    when we choose even pos elements: 2 4 6 8 10 12 14 16 
+    
+    
+                                index:   1 2 3  4       look at the pos each time each element is divided by 2.
+                
+class Solution:
+# 	__________algorithm_________
+    # As we all knopw that when A%26==0 means that value will be z so for that we have to just decrease vaue by 1;
+	def convertToTitle(self, A):
+	    l=[]
+	   # A-=1
+	    while A>0:
+	        A-=1
+	    
+	        l.append(chr((A%26)+ord('A')))
+	        A//=26
+	    l.reverse()
+	    return ''.join(l)
+                elements:4 8 12 16
+                                
+                                index:   1 2      
+                                elements:8 16
+    
+    */
+    return (1<<int(log2(A)));
+}

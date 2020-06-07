@@ -1,0 +1,43 @@
+Problem Description
+
+Given eight integers A, B, C, D, E, F, G and H which represent two rectangles in a 2D plane.
+For the first rectangle it's bottom left corner is (A, B) and top right corner is (C, D) and for the second rectangle it's bottom left corner is (E, F) and top right corner is (G, H).
+
+Find and return whether the two rectangles overlap or not.
+
+class Solution:
+    #_______Algorithm_________
+    # Here are all the possible cases
+    # 1) _______________________     or   ______________
+                                     
+    #      _______________              __________________________        
+    # 2) 
+    # __________________
+    # ____________
+    
+
+    
+    # 3)   ______________________
+    #                 _____________________
+                
+    
+                    
+    # 4) ________
+    #                 ____________
+
+
+                    
+    # 5)          __________________
+    #   _________  
+    # Answer for all the above case return 1 except 4 and 5.
+        
+    
+    
+    def solve(self, A, B, C, D, E, F, G, H):
+        if A>=G or E>=C:
+            return 0;
+        if B>=H or F>=D:
+            return 0;
+        return 1;
+        
+        
