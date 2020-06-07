@@ -1,0 +1,52 @@
+problem:find the first non repeating character in a given string.
+
+first optimised approach:
+
+use hash map of size 256 set the value to 0 and store index.
+for each character of string store the count and index in hash map.
+
+Now find the minimum index having count 1.
+
+#include <bits/stdc++.h>
+using namespace std;
+int main(){
+    string s;
+    cin>>s;
+    int n=s.length();
+    //Here first will store the count of the characters and second will store the index of every element.
+    pair<int,int> p[256]={{0,0}};
+    for(int i=0;i<n;i++){
+        p[s[i]].first++;
+        p[s[i]].second=i;
+    }
+    int ans=INT_MAX;
+    for(int index=0;index<256;index++){
+        if(p[i].first==1 and ans>index){
+            ans=index;
+        }
+    }
+    cout<<ans;
+    
+}
+
+OPTIMISED APPROACH:
+
+traverse the string from right side or end side.
+update the current character  if count  is equall to  1.
+#include <bits/stdc++.h>
+using namespace std;
+int main(){
+    string s;
+    cin>>s;
+    int n=s.length();
+    int count[256]={0};
+    char ans='';//if no such characters are present then do not print anything.
+    for(int i=n-1;i>=0;i--){
+        if(count[s[i]]==1){
+            ans=s[i];
+        }
+        count[s[i]] +=1;
+    }
+    cout<<ans;
+    
+}
