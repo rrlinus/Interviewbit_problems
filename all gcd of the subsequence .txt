@@ -1,0 +1,28 @@
+ALL GCD
+Given an array of integers A of size N.
+
+Find and return how many distinct gcd( sub(A) ) values are possible, where sub(A) is any non-empty subsequence of arraya A.
+
+NOTE: gcd here refers to greatest common divisor.
+
+
+...........................Algorithm................................................
+
+Note: gcd(a,b,c)=gcd(gcd(a,b),c)
+
+This algorithm is similar to find the longest increasing subsequence/maximum sum of increasing subsequence/maximum xor of subsequence in dp.
+
+
+
+code:
+int Solution::solve(vector<int> &A) {
+    int n=A.size();
+    set<int> s;
+    for(int i=0;i<n;i++){
+        s.insert(A[i]);
+        for(auto j:s){
+            s.insert(__gcd(j,A[i]));
+        }
+    }
+    return s.size();
+}

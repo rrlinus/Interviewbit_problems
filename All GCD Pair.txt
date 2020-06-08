@@ -1,0 +1,45 @@
+Given an array of integers A of size N containing GCD of every possible pair of elements of another array.
+
+Find and return the original numbers which are used to calculate the GCD array in any order. For example, if original numbers are {2, 8, 10} then the given array will be {2, 2, 2, 2, 8, 2, 2, 2, 10}.
+
+..................Algorithm...............................
+
+gcd(a,b) <=a
+
+so maximum and second maximum is always present in the answer why? if we take any pair from the given array then maximum gcd is always <=smaller number of two.
+
+code:
+vector<int> Solution::solve(vector<int> &A) {
+    set<int> s(A.begin(),A.end());
+    map<int,int> mp;
+    vector<int> ans;
+    sort(A.begin(),A.end(),greater<int>());
+    int n=A.size();
+    for(int i=0;i<n;i++){
+        mp[A[i]]++;
+    }
+    for(auto i:mp){
+        mp[i.first]=(i.second+1)/2;
+    }
+    for(int i=0;i<n;i++){
+        auto it=s.find(A[i]);
+        // cout<<A[i]<<" .";
+        if(it!=s.end()){
+            ans.push_back(A[i]);
+            mp[*it]--;
+            if(mp[*it]==0)
+              s.erase(it);
+            for(int j=ans.size()-2;j>=0;j--){
+                it=s.find(__gcd(ans[j],ans[ans.size()-1]));
+                if(it!=s.end()){
+                    mp[*it]--;
+                if(mp[*it]==0)
+                    s.erase(it);
+                // cout<<*it<<" .";
+                }
+            }
+        }
+    }
+    return ans;
+}
+ 

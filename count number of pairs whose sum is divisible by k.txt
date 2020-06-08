@@ -1,0 +1,32 @@
+Given an array of integers A and an integer B, find and return the number of pairs in A whose sum is divisible by B.
+
+Since the answer may be large, return the answer modulo (109 + 7).
+................................................... Algorithm:.............................
+
+suppose and y are two integers and (x+y)%k =0 it means that (x%k+y%k)%k=0
+
+now lets compare (a+b)%k=(x%k + y%k)%k hence the maximum value a<=k-1 and b<=k-1
+
+now a + b <=k-1 +k-1 <= 2*k-2 <2*k which means that if take modulo of each elements 
+of the array and take any pair then maximum sum <2*k so it will
+only divisible by k if pair sum=k;
+
+code:
+
+class Solution:
+    # @param A : list of integers
+    # @param B : integer
+    # @return an integer
+    def solve(self, A, B):
+        for i in range(len(A)):
+            A[i]=A[i]%B;
+        hash=[0]*B;
+        for i in range(len(A)):
+            hash[A[i]]+=1
+        ans=(hash[0]*(hash[0]-1))//2;
+        if B%2==0:
+            ans +=(hash[B//2]*(hash[B//2]-1))//2;
+        for i in range(1,(B+1)//2):
+            ans +=hash[i]*hash[B-i];
+        return ans%1000000007;
+        

@@ -1,0 +1,20 @@
+Determine whether an integer is a palindrome. Do this without extra space.
+
+A palindrome integer is an integer x for which reverse(x) = x where reverse(x) is x with its digit reversed. Negative numbers are not
+
+.................Algorithm.......................
+
+if a number is palindrome if and only if its reverse are same to the original
+
+code:
+
+
+int Solution::isPalindrome(int A) {
+    int sum=0;
+    int temp=A;
+    while(temp){
+        sum =sum*10+temp%10;
+        temp/=10;
+    }
+    return A==sum and A>=0;
+}
