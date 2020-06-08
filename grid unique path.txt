@@ -1,0 +1,94 @@
+A robot is located at the top-left corner of an A x B grid (marked 'Start' in the diagram below).
+
+
+
+The robot can only move either down or right at any point in time. The robot is trying to reach the bottom-right corner of the grid (marked 'Finish' in the diagram below).
+
+How many possible unique paths are there?
+
+
+
+Problem Constraints
+A and B will be such that the resulting answer fits in a 32 bit signed integer.
+
+
+
+Input Format
+First argument of input will be single integer A.
+Second argument of input will be single integer B.
+
+
+
+Output Format
+Return a single integer denoting the number of unique paths.
+
+
+
+Example Input
+ A = 2, B = 2
+
+
+Example Output
+ 2
+
+
+Example Explanation
+ 2 possible routes : (0, 0) -> (0, 1) -> (1, 1) 
+             
+
+ OR  : (0, 0) -> (1, 0) -> (1, 1)
+
+
+int Solution::uniquePaths(int A, int B) {
+    
+    // first method
+    // int dp[m][n];
+    // for(int i=0;i<m;i++){
+    //     for(int j=0;j<n;j++){
+    //         if(i==0 or j==0)
+    //          dp[i][j]=1;
+    //         else
+    //         dp[i][j]=dp[i-1][j]+dp[i][j-1];
+    //     }
+    // }
+    // return dp[m-1][n-1];
+    
+    
+    
+    // second method
+    // vector<int> dp(n,1);
+    // for(int i=1;i<m;i++){
+    //     for(int j=1;j<n;j++){
+    //         dp[j] +=dp[j-1];
+    //     }
+    // }
+    // return dp[n-1];
+    
+    
+    
+    // Third method
+    // int N = n + m - 2;
+    // int k = m - 1;
+    // double res = 1;
+    // for (int i = 1; i <= k; i++)
+    //     res = res * (N - k + i) / i;
+    // return (int)res;
+
+    //fourth method
+    long long m=A-1,n=B-1,k=min(m,n),num=1,den=1;
+    n=m+n;
+    for(int i=0;i<=1000;i++){
+        
+    }
+    for(;k>0; k--,n--)
+    {
+        num*=n;
+        den*=k;
+        if(num%den==0)
+        {
+            num/=den;
+            den=1;
+        }
+    }
+    return (int)num;
+}

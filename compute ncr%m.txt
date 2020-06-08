@@ -1,0 +1,36 @@
+Given three integers A, B and C, where A represents n, B represents r and C represents m, find and return the value of nCr % m where nCr % m = (n!/((n-r)!*r!))% m.
+
+x! means factorial of x i.e. x! = 1 * 2 * 3... * x.
+
+...........................Algorithm.........................
+
+ncr=n-1cr-1 +ncr use this formula
+
+
+#define ll long long
+
+ll power(ll A,ll B,ll C){
+    ll ans=1;
+    while(B){
+        if(B&1){
+            ans =(ans*A)%C;
+        }
+        A=(A*A)%C;
+        B=B>>1;
+    }
+    return ans%C;
+}
+int Solution::solve(int n, int r, int m) {
+    ll dp[r+1]={0};
+    dp[0]=1;
+    for(int i=1;i<=n;i++){
+        for(int j=min(i,r);j>0;j--){
+            dp[j]=(dp[j]+dp[j-1])%m;
+        }
+    }
+    return dp[r];
+    
+}
+
+
+
