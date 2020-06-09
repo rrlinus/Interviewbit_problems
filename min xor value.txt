@@ -1,0 +1,119 @@
+Min XOR value
+Problem Description
+
+Given an integer array A of N integers, find the pair of integers in the array which have minimum XOR value. Report the minimum XOR value.
+
+
+
+Problem Constraints
+2 <= length of the array <= 100000
+0 <= A[i] <= 109
+
+
+
+Input Format
+First and only argument of input contains an integer array A.
+
+
+
+Output Format
+Return a single integer denoting minimum xor value.
+
+
+
+Example Input
+Input 1:
+
+ A = [0, 2, 5, 7]
+Input 2:
+
+ A = [0, 4, 7, 9]
+
+
+Example Output
+Output 1:
+
+ 2
+Output 2:
+
+ 3
+
+
+Example Explanation
+Explanation 1:
+
+ 0 xor 2 = 2
+
+
+
+..............................first try to do it O(nlogn) using sorting algo.................................then try to optimise this in O(n)....
+using trie data structure.
+
+
+struct Node{
+    Node *left,*right;
+    Node(){
+        left=right=NULL;
+    }
+};
+int solve(Node *root,int x){
+    int ans=0;
+    for(int i=31;i>=0;i--){
+        bool bit=(x&(1<<i));
+        if(bit){
+           if(root->right==NULL){
+               root=root->left;
+               ans +=(1<<i);
+           }
+           else
+           root=root->right;
+        }
+        else{
+            if(root->left==NULL){
+                root=root->right;
+                ans +=(1<<i);
+            }
+            else
+            root=root->left;
+        }
+    }
+    return ans;
+}
+void insert(Node *root,int x){
+    for(int i=31;i>=0;i--){
+        bool bit=(x&(1<<i));
+        if(bit){
+           if(root->right==NULL){
+               root->right=new Node();
+           }
+           root=root->right;
+        }
+        else{
+            if(root->left==NULL){
+                root->left=new Node();
+            }
+            root=root->left;
+        }
+    }
+}
+int Solution::findMinXor(vector<int> &A) {
+    int n=A.size();
+    // int ans=INT_MAX;
+    // sort(A.begin(),A.end());
+    // for(int i=1;i<n;i++){
+    //     ans=min(ans,A[i]^A[i-1]);
+    // }
+    // return ans;
+    
+    int ans=INT_MAX;
+    Node *root=new Node();
+    insert(root,A[0]);
+    for(int i=1;i<n;i++){
+        ans =min(ans,solve(root,A[i]));
+        insert(root,A[i]);
+    }
+    
+    return ans;
+    
+    
+}
