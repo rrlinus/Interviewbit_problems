@@ -1,0 +1,77 @@
+Given an integer A, return the number of trailing zeroes in A! i.e. factorial of A.
+
+Note: Your solution should run in logarithmic time complexity.
+
+
+
+Problem Constraints
+1 <= A <= 109
+
+
+
+Input Format
+First and only argument is a single integer A.
+
+
+
+Output Format
+Return a single integer denoting number of zeroes.
+
+
+
+Example Input
+Input 1
+
+ A = 5
+Input 2:
+
+ A = 6
+
+
+Example Output
+Output 1:
+
+ 1
+Output 2:
+
+ 1
+
+
+Example Explanation
+Explanation 1:
+
+ A! = 120.
+ Number of trailing zeros = 1. So, return 1.
+Explanation 2:
+
+ A! = 720 
+ Number of trailing zeros = 1. So, return 1.
+....................................................Algorithm.................................................
+
+we will get lsb 0 in any number simply means that we have to determine maximum power of 10 .example: 10 -1
+                                                                                              100 -2 and so on
+
+so in factorial we to determine the divisors of 2 and 5.
+ so maximum power of 2 x= A/2 +A/4 +A/8 +A/16...............
+    maximumm number of 5 y=A/5 +A/25 + A/125................
+ for power of 10 =min(x,y);
+
+
+#define ll long long
+int Solution::trailingZeroes(int A) {
+   ll ct2=0,ct5=0;
+   ll temp=A;
+   ll p2=2;
+   while(temp/p2!=0){
+       ct2 +=temp/p2 ;
+       p2=p2*2;
+   }
+   ll p5=5;
+   while(temp/p5!=0){
+       ct5 +=temp/p5;
+       p5=p5*5;
+   }
+   return min(ct2,ct5);
+}
+
+                                                                                                

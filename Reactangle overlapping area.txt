@@ -1,0 +1,70 @@
+Given eight integers A, B, C, D, E, F, G and H which represent two rectangles in a 2D plane.
+
+For the first rectangle it's bottom left corner is (A, B) and top right corner is (C, D) and for the second rectangle it's bottom left corner is (E, F) and top right corner is (G, H).
+
+Find and return the overlapping area of the two rectangles.
+
+
+
+Problem Constraints
+-104 <= A <= C <= 104
+-104 <= B <= D <= 104
+-104 <= E <= G <= 104
+-104 <= F <= H <= 104
+
+
+Input Format
+The eight arguments given are the integers A, B, C, D, E, F, G and H.
+
+
+
+Output Format
+Return the overlapping area of the two rectangles.
+
+
+
+Example Input
+Input 1:
+
+ A = 0   B = 0
+ C = 4   D = 4
+ E = 2   F = 2
+ G = 6   H = 6
+Input 2:
+
+ A = 0   B = 0
+ C = 4   D = 4
+ E = 2   F = 2
+ G = 3   H = 3
+
+
+Example Output
+Output 1:
+
+ 4
+Output 2:
+
+ 1
+
+.............................................Algorithm...................................................
+
+Try to generate all possible cases for x direction as well as in y direction.let's start exploring in x-direction
+      ............                       ........................       .........................  ........................                 ..............
+               ...............       .................                    ......................                            ................
+similarly in y-direction.
+
+Now maximum overlapping x-direction: int min(G,C)-max(A,E); similRLY FOR Y.
+int Solution::solve(int A, int B, int C, int D, int E, int F, int G, int H) {
+    int x1=min(G,C);
+    int x2=max(A,E);
+    if(x1<=x2)
+    return 0;
+    int y1=min(H,D);
+    int y2=max(B,F);
+    if(y1<=y2){
+        return 0;
+    }
+    return (x1-x2)*(y1-y2);
+    
+}
+

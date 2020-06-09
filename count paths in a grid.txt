@@ -1,0 +1,31 @@
+Count of paths in a grid
+Given an integer A, find and return the number of paths in a grid of size (A x A) that starts from (1, 1) and reaches (A, A) without crossing the major diagonal.
+
+Since the result can be large, return the result modulo (10^9 + 7).
+
+
+..............................Algorithm..................................
+
+#define M 1000000007
+#define ll long long
+ll power(ll x,ll n){
+    ll ans=1;
+    while(n){
+        if(n&1)
+        ans =(ans*x)%M;
+        x=(x*x)%M;
+        n=n>>1;
+    }
+    return ans;
+}
+int Solution::solve(int n) {
+    n--;
+    ll ans=1;
+     for(int i=0;i<n;i++){
+         ans =((ans*(2*n-i))%M*power(i+1,M-2))%M;
+     }
+     ll inv=power(n+1,M-2);
+     return (ans*inv)%M;
+}
+
+this is similar to the problem count numbers of balanced parenthesis of size n.
