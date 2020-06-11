@@ -1,0 +1,107 @@
+Problem Description
+
+Given a matrix of integers A of size N x M in which each row is sorted.
+
+Find and return the overall median of the matrix A.
+
+NOTE: No extra memory is allowed.
+
+NOTE: Rows are numbered from top to bottom and columns are numbered from left to right.
+
+
+
+Problem Constraints
+1 <= N, M <= 10^5
+
+1 <= N*M <= 10^6
+
+1 <= A[i] <= 10^9
+
+N*M is odd
+
+
+
+Input Format
+The first and only argument given is the integer matrix A.
+
+
+
+Output Format
+Return the overall median of the matrix A.
+
+
+
+Example Input
+Input 1:
+
+A = [   [1, 3, 5],
+        [2, 6, 9],
+        [3, 6, 9]   ]
+Input 2:
+
+A = [   [5, 17, 100]    ]
+
+
+Example Output
+Output 1:
+
+ 5
+Output 2:
+
+ 17
+
+
+Example Explanation
+Explanation 1:
+
+ 
+A = [1, 2, 3, 3, 5, 6, 6, 9, 9]
+Median is 5. So, we return 5.
+Explanation 2:
+
+ 
+Median is 17.
+
+.......................Algorithm...................
+simple approach is to push all the elements of the matrix in one-d array.
+then sort the elements and finally return array[mid]
+int Solution::findMedian(vector<vector<int> > &A) {
+    int n=A.size();
+    int m=A[0].size();
+    vector<int> ans(n*m);
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            ans[i*m+j]=A[i][j];
+        }
+    }
+    sort(ans.begin(),ans.end());
+    return ans[(n*m)/2];
+    
+}
+optimize solution :
+```int Solution::findMedian(vector<vector<int> > &A) {
+    int start=INT_MAX,end=INT_MIN;
+    int n=A.size(),m=A[0].size();
+    for(int i=0;i<n;i++){
+        start=min(start,A[i][0]);
+        end=max(end,A[i][m-1]);
+    }
+    int sz=(n*m+1)/2;
+    while(end-start>0){
+        int mid=start+(end-start)/2;
+        int ct=0;
+        for(int i=0;i<n;i++){
+            ct +=upper_bound(A[i].begin(),A[i].end(),mid)-A[i].begin();
+        }
+        if(ct>=sz){
+            end=mid;
+        }
+        else{
+            start=mid+1;
+        }
+    }
+    return end;
+    
+}
+
+you can use priority queue to merge n sorted arays and then find the median

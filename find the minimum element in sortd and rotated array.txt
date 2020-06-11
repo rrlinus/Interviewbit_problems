@@ -1,0 +1,29 @@
+
+Find the minimum element in the sorted and rotated array.
+
+use simple binary search.
+
+How can we come up with an idea of binary_search?
+if you find any pattern in the array such that we can reduce our search space then we will apply here.
+
+
+public:
+    int finding_pivot(vector &a,int start,int end){
+        if(start==end)
+            return a[start];
+        int mid=start+(end-start)/2;
+        if(a[mid]>=a[0])
+            return finding_pivot(a,mid+1,end);
+        else
+            return finding_pivot(a,start,mid);
+            
+        
+    }
+    int findMin(vector& nums) {
+        int n=nums.size();
+        if(nums[n-1]>nums[0]){
+            return nums[0];
+        }
+        return finding_pivot(nums,0,nums.size()-1);
+    }
+};
