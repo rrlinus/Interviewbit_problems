@@ -1,0 +1,97 @@
+Problem Description
+
+Given an array of integers A, find and return new integer array B.
+
+Array B has the property where B[i] is the number of smaller elements to the right of A[i].
+
+
+
+Problem Constraints
+1 <= length of the array <= 100000
+
+1 <= A[i] <= 109
+
+
+
+Input Format
+The only argument given is the integer array A.
+
+
+
+Output Format
+Return the new integer array B.
+
+
+
+Example Input
+A = [1, 5, 4, 2, 1]
+
+
+Example Output
+[0, 3, 2, 1, 0]
+
+
+Example Explanation
+Number of smaller elements to the right of 1 are 0.
+Number of smaller elements to the right of 5 are 3 (4, 2, 1).
+Number of smaller elements to the right of 4 are 2 (2, 1).
+Number of smaller elements to the right of 2 are 1 (1).
+Number of smaller elements to the right of 1 are 0.
+
+
+void merge(vector<pair<int,pair<int,int> > > &v,int start,int mid,int end){
+    int n1=mid-start+1;
+    int n2=end-mid;
+    vector<pair<int,pair<int,int>> > a(n1);
+    for(int i=0;i<n1;i++){
+        a[i]=v[start+i];
+    }
+    vector<pair<int,pair<int,int>> > b(n2);
+    for(int i=0;i<n2;i++){
+        b[i]=v[mid+i+1];
+    }
+    int i=0,j=0,k=start;
+    while(i<n1 and j<n2){
+        if(a[i].second.first>b[j].second.first){
+            v[k++]=b[j++];
+        }
+        else{
+            a[i].second.second +=j;
+            v[k++]=a[i++];
+        }
+    }
+    while(i<n1){
+      a[i].second.second +=j;
+      v[k++]=a[i++];
+    }
+    while(j<n2){
+        v[k++]=b[j++];
+    }
+    // cout<<k<<" ";
+}
+
+void mergeSort(vector<pair<int,pair<int,int>> >&v,int start,int end){
+    if(start>=end){
+        return ;
+    }
+    int mid=start+(end-start)/2;
+    mergeSort(v,start,mid);
+    mergeSort(v,mid+1,end);
+    merge(v,start,mid,end);
+}
+bool comp(pair<int,pair<int,int> > &x,pair<int,pair<int,int> > &y){
+    return x.first<y.first;
+}
+vector<int> Solution::solve(vector<int> &A) {
+    vector<pair<int,pair<int,int>> > v(A.size());
+    for(int i=0;i<A.size();i++){
+        v[i]={i,{A[i],0}};
+    }
+    mergeSort(v,0,A.size()-1);
+    sort(v.begin(),v.end(),comp);
+    vector<int> temp(A.size());
+    for(int i=0;i<A.size();i++){
+        temp[i]=v[i].second.second;
+    }
+    return temp;
+}
