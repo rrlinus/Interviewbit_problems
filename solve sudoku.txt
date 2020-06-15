@@ -1,0 +1,47 @@
+bool isSafe(vector<vector<char> >&A,int x,int y,int n,int val){
+    int cx=x,cy=y;
+    for(int i=0;i<n;i++){
+        if(A[x][i]==val or A[i][y]==val)
+        return false;
+    }
+    x=cx,y=cy;
+   for(int i=(x/3)*3;i<(x/3)*3+3;i++){
+       for(int j=(y/3)*3;j<(y/3)*3+3;j++){
+           if(A[i][j]==val){
+               return false;
+           }
+       }
+   }
+    return true;
+    
+}
+bool soln(vector<vector<char> >&A,int x,int y,int n){
+    if(x==n){
+        return true;
+    }
+    if(y==n){
+        return soln(A,x+1,0,n);
+    }
+    else{
+        if(A[x][y]=='.'){
+          for(int i=1;i<=9;i++){
+              if(isSafe(A,x,y,n,i+'0')){
+                    A[x][y]='0'+i;
+                    if( soln(A,x,y+1,n))
+                      return true;
+              }
+              A[x][y]='.';
+          } 
+        }
+        else{
+            if( soln(A,x,y+1,n))
+              return true;
+        }
+    }
+    return false;
+    
+}
+void Solution::solveSudoku(vector<vector<char> > &A) {
+    soln(A,0,0,A.size());
+    
+}
