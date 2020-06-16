@@ -1,0 +1,43 @@
+int merge(vector<int> &A,int start,int mid,int end){
+    int n1=mid-start+1;
+    int n2=end-mid;
+    vector<int> a(n1);
+    vector<int> b(n2);
+    for(int i=0;i<n1;i++){
+        a[i]=A[start+i];
+    }
+    for(int i=0;i<n2;i++){
+        b[i]=A[mid+i+1];
+    }
+    int i=0,j=0,k=start;
+    int ans=0;
+    while(i<n1 and j<n2){
+        if(a[i]>b[j]){
+            A[k++]=b[j++];
+        }
+        else{
+            A[k++]=a[i++];
+            ans +=j;
+        }
+    }
+    // cout<<j<<" ";
+    while(i<n1){
+         A[k++]=a[i++];
+         ans +=j;
+    }
+    while(j<n2){
+         A[k++]=b[j++];
+    }
+    return ans;
+}
+int mergeSort(vector<int> &a,int start,int end){
+    if(start>=end){
+        return 0;
+    }
+    int mid=start+(end-start)/2;
+    return mergeSort(a,start,mid)+mergeSort(a,mid+1,end)+merge(a,start,mid,end);
+}
+int Solution::countInversions(vector<int> &A) {
+    int n=A.size();
+   return mergeSort(A,0,n-1);
+}

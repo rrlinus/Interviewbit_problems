@@ -1,0 +1,101 @@
+Problem:merge two sorted linked lists.
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */'
+
+Time Complexity:O(n)
+space Complexity:O(n)
+ListNode* Solution::mergeTwoLists(ListNode* A, ListNode* B) {
+    ListNode *head,*temp;
+    
+    while(A and B){
+        if(A->val<B->val){
+            if(!head){
+                head=new ListNode(A->val);
+                temp=head;
+            }
+            else{
+                temp=new ListNode(A->val);
+                temp=temp->next;
+            }
+             A=A->next;
+        }
+        else{
+            if(!head){
+                head=new ListNode(B->val);
+                temp=head;
+            }
+            else{
+                temp=new ListNode(B->val);
+                temp=temp->next;
+            }
+             B=B->next;
+        }
+    }
+    while(A){
+         if(!head){
+                head=new ListNode(A->val);
+                temp=head;
+            }
+            else{
+                temp=new ListNode(A->val);
+                temp=temp->next;
+            }
+             A=A->next;
+    }
+    while(B){
+         if(!head){
+                head=new ListNode(B->val);
+                temp=head;
+            }
+            else{
+                temp=new ListNode(B->val);
+                temp=temp->next;
+            }
+             B=B->next;
+    }
+    return head;
+    
+}
+
+
+Space Complexity:O(1)
+
+ListNode* Solution::mergeTwoLists(ListNode* A, ListNode* B) {
+    ListNode *head,*temp;
+    head=temp=NULL;
+    while(A and B){
+        if(A->val<B->val){
+            if(!head){
+                head=A;
+                temp=head;
+            }
+            else{
+                temp->next=A;
+                temp=temp->next;
+            }
+             A=A->next;
+        }
+        else{
+            if(!head){
+                head=B;
+                temp=head;
+            }
+            else{
+                temp->next=B;
+                temp=temp->next;
+            }
+             B=B->next;
+        }
+    }
+    if(A)
+    temp->next=A;
+    if(B)
+    temp->next=B;
+    return head;
+    }

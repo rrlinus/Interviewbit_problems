@@ -1,0 +1,27 @@
+Largest Number
+Problem Description
+
+Given a array A of non negative integers, arrange them such that they form the largest number.
+
+Note: The result may be very large, so you need to return a string instead of an integer.
+bool comp(string x,string y){
+   return (x+y)>(y+x);
+}
+string Solution::largestNumber(const vector<int> &A) {
+    int n=A.size();
+    vector<string> temp(n);
+    for(int i=0;i<n;i++){
+        temp[i]=to_string(A[i]);
+    }
+    sort(temp.begin(),temp.end(),comp);
+    string ans="";
+    for(int i=0;i<n;i++){
+        ans +=temp[i];
+    }
+    if(ans[0]=='0')
+    {
+        return "0";
+    }
+    return ans;
+    
+}
