@@ -1,12 +1,4 @@
-
-
-
-
-
-
-
-
-Sum the Difference
+*****Sum the Difference
 Problem Description
 
 Given an integer array A of size N.
