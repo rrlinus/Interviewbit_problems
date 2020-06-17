@@ -1,0 +1,43 @@
+Given three sorted arrays A, B and Cof not necessarily same sizes.
+
+Calculate the minimum absolute difference between the maximum and minimum number from the triplet a, b, c such that a, b, c belongs arrays A, B, C respectively. i.e. minimize | max(a,b,c) - min(a,b,c) |.
+
+Example :
+
+Input:
+
+A : [ 1, 4, 5, 8, 10 ]
+B : [ 6, 9, 15 ]
+C : [ 2, 3, 6, 6 ]
+Output:
+
+1
+Explanation: We get the minimum difference for a=5, b=6, c=6 as | max(a,b,c) - min(a,b,c) | = |6-5| = 1.
+
+
+
+int Solution::solve(vector<int> &A, vector<int> &B, vector<int> &C) {
+    int n1=A.size();
+    int n2=B.size();
+    int n3=C.size();
+    int i=0,j=0,k=0;
+    sort(A.begin(),A.end());
+    sort(B.begin(),B.end());
+    sort(C.begin(),C.end());
+    int ans=INT_MAX;
+    while(i<n1 and j<n2 and k<n3){
+        ans=min(ans,max({A[i],B[j],C[k]})-min({A[i],B[j],C[k]}));
+        int x=min({A[i],B[j],C[k]});
+        if(x==A[i]){
+            i++;
+        }
+        if(x==B[j]){
+            j++;
+        }
+        if(x==C[k]){
+            k++;
+        }
+    }
+    return ans;
+    
+}

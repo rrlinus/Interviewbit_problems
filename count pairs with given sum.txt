@@ -1,0 +1,19 @@
+int Solution::solve(vector<int> &A, int B) {
+    int n=A.size();
+    int ct=0;
+    int i=0,j=n-1;
+    while(i<j){
+        if(A[i]+A[j]==B){
+            ct++;
+            i++;
+        }
+        else if(A[i]+A[j]>B){
+            j--;
+        }
+        else{
+            i++;
+        }
+    }
+    return ct++;
+    
+}
