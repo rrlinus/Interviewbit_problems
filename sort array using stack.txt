@@ -1,0 +1,25 @@
+vector<int> Solution::solve(vector<int> &A) {
+     stack<int> s;
+     for(int i=0;i<A.size();i++){
+         if(s.empty()){
+             s.push(A[i]);
+         }
+         else{
+             stack<int> temp;
+             while(!s.empty() and s.top()<A[i]){
+                 temp.push(s.top());
+                 s.pop();
+             }
+             s.push(A[i]);
+             while(!temp.empty()){
+                 s.push(temp.top());
+                 temp.pop();
+             }
+         }
+     }
+     for(int i=0;i<A.size() and !s.empty();i++){
+         A[i]=s.top();
+         s.pop();
+     }
+     return A;
+}
