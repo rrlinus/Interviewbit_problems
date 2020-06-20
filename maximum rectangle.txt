@@ -1,0 +1,79 @@
+Given a 2D binary matrix of integers A containing 0's and 1's of size N x M.
+
+Find the largest rectangle containing only 1's and return its area.
+
+Note: Rows are numbered from top to bottom and columns are numbered from left to right.
+
+
+Input Format
+
+The only argument given is the integer matrix A.
+Output Format
+
+Return the area of the largest rectangle containing only 1's.
+Constraints
+
+1 <= N, M <= 1000
+0 <= A[i] <= 1
+For Example
+
+Input 1:
+    A = [   [0, 0, 1]
+            [0, 1, 1]
+            [1, 1, 1]   ]
+Output 1:
+    4
+
+Input 2:
+    A = [   [0, 1, 0, 1]
+            [1, 0, 1, 0]    ]
+Output 2:
+    1
+
+
+
+int largestArea(vector<int> A){
+    int n=A.size();
+    stack<int> s;
+    int ans=0,i;
+    for(i=0;i<n;i++){
+        if(s.empty() or A[s.top()]<=A[i]){
+            s.push(i);
+        }
+        else{
+            while(!s.empty() and A[s.top()]>A[i]){
+                int temp=A[s.top()];
+                s.pop();
+                if(!s.empty())
+                ans=max(ans,(i-s.top()-1)*temp);
+                else
+                ans=max(ans,i*temp);
+            }
+            s.push(i);
+        }
+    }
+    while(!s.empty()){
+        int temp=A[s.top()];
+        s.pop();
+        if(!s.empty())
+        ans=max(ans,(i-s.top()-1)*temp);
+        else
+        ans=max(ans,i*temp);
+    }
+    return ans;
+}
+int Solution::solve(vector<vector<int> > &A) {
+    int n=A.size();
+    int m=A[0].size();
+    int ans=0;
+    ans=largestArea(A[0]);
+    for(int i=1;i<n;i++){
+        for(int j=0;j<m;j++){
+            if(A[i][j]!=0)
+            A[i][j] +=A[i-1][j];
+        }
+        ans=max(ans,largestArea(A[i]));
+    }
+    return ans;
+}
+
