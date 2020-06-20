@@ -1,0 +1,29 @@
+string Solution::simplifyPath(string A) {
+    int n=A.length();
+    char arr[n+1];
+    deque<string> s;
+    strcpy(arr,A.c_str());
+    char *token=strtok(arr,"/");
+    while(token!=NULL){
+        if(strlen(token)==1 and token[0]=='.'){
+        }
+        else if(strlen(token)==2 and token[0]=='.' and token[1]=='.'){
+            if(!s.empty())
+            s.pop_back();
+        }
+        else{
+            s.push_back(token);
+        }
+        token = strtok(NULL, "/"); 
+    }
+    string ans="";
+    while(!s.empty()){
+        string temp=s.front();
+        ans +="/"+temp;
+        s.pop_front();
+    }
+    if(ans.length()==0)
+    ans +="/";
+    return ans;
+    
+}
