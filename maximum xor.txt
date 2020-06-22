@@ -1,0 +1,107 @@
+Maximum XOR
+Problem Description
+
+Given an array of integers A, find and return the maximum result of A[i] XOR A[j], where i, j are the indexes of the array.
+
+
+
+Problem Constraints
+1 <= length of the array <= 100000
+0 <= A[i] <= 109
+
+
+
+Input Format
+The only argument given is the integer array A.
+
+
+
+Output Format
+Return an integer denoting the maximum result of A[i] XOR A[j].
+
+
+
+Example Input
+Input 1:
+
+ A = [1, 2, 3, 4, 5]
+Input 2:
+
+ A = [5, 17, 100, 11]
+
+
+Example Output
+Output 1:
+
+ 7
+Output 2:
+
+ 117
+
+
+Example Explanation
+Explanation 1:
+
+ Maximum XOR occurs between element of indicies(0-based) 1 and 4 i.e. 2 ^ 5 = 7.
+Explanation 2:
+
+ Maximum XOR occurs between element of indicies(0-based) 1 and 2 i.e. 17 ^ 100 = 117.
+
+struct Node{
+    Node *left,*right;
+    Node(){
+        left=right=NULL;
+    }
+};
+void TrieInsert(Node *root,int val){
+    for(int i=31;i>=0;i--){
+        if(val&(1<<i)){
+            if(!root->right){
+                root->right=new Node();
+            }
+            root=root->right;
+        }
+        else{
+            if(!root->left){
+                root->left=new Node();
+            }
+            root=root->left;
+        }
+    }
+}
+int TrieQuery(Node *root,int val){
+    int ans=0;
+    for(int i=31;i>=0;i--){
+         if(val&(1<<i)){
+            if(!root->left){
+                root=root->right;
+            }
+            else{
+              root=root->left;
+              ans +=(1<<i);
+            }
+        }
+        else{
+            if(!root->right){
+                root=root->left;
+            }
+            else{
+                root=root->right;
+                ans +=(1<<i);
+            }
+        }
+    }
+    return ans;
+}
+int Solution::solve(vector<int> &A) {
+    int ans=0;
+    int n=A.size();
+    Node *root=new Node();
+    for(int i=0;i<n;i++){
+        TrieInsert(root,A[i]);
+    }
+    for(int i=0;i<n;i++){
+        ans=max(ans,TrieQuery(root,A[i]));
+    }
+    return ans;
+}

@@ -1,0 +1,132 @@
+Subarrays Xor less Than B
+Problem Description
+
+Given an array of integers A. Find and return the number of subarrays whose xor values is less than B.
+NOTE: As the answer can be very large, return the answer modulo (109+7).
+
+
+
+Problem Constraints
+1 <= length of the array <= 100000
+1 <= A[i] <= 105
+1 <= B <= 106
+
+
+
+Input Format
+The argument given is the integer array A
+Second argument is an integer B.
+
+
+
+Output Format
+Return an integer denoting the number of subarrays whose xor values is less than B.
+
+
+
+Example Input
+Input 1:
+
+ A = [8, 3, 10, 2, 6, 7, 6, 9, 3]
+ B = 3
+Input 2:
+
+ A = [9, 4, 3, 11]
+ B = 7
+
+
+Example Output
+Output 1:
+ 5
+Output 2:
+
+ 3
+
+
+Example Explanation
+Explanation 1:
+
+ Generate all the subarrays and their corresponding xor and there are only 5 such subaraays which have xor less than 3.
+Explanation 2:
+
+ Subarrays with xor < 7 are : [9, 4, 3, 11], [4] and [3].
+ So, the answer is 3.
+
+typedef long long ll;
+ll M =1e9+7;
+struct Node{
+    ll ct;
+    Node *left,*right;
+    Node(){
+        ct=0;
+        left=right=NULL;
+    }
+    
+};
+void TrieInsert(Node *root,int val){
+    for(int i=31;i>=0;i--){
+        if(val&(1<<i)){
+            if(root->right){
+                root->right->ct +=1;
+            }
+            else{
+               root->right=new Node();
+               root->right->ct=1;
+            }
+            root=root->right;
+        }
+        else{
+            if(root->left){
+                root->left->ct +=1;
+            }
+            else{
+                root->left=new Node();
+                root->left->ct=1;
+            }
+            root=root->left;
+        }
+    }
+}
+ll TrieQuery(Node *root,int val,int B){
+    ll ans=0;
+    for(int i=31;i>=0;i--){
+        int x=val&(1<<i);
+        int y=B&(1<<i);
+        if(!root)
+        return ans;
+        if(y){
+            if(x){
+                if(root->right)
+                ans +=root->right->ct;
+                root=root->left;
+            }
+            else{
+                if(root->left)
+                ans +=root->left->ct;
+                root=root->right;
+            }
+        }
+        else{
+            if(x)
+            root=root->right;
+            else
+            root=root->left;
+        }
+    }
+    return ans;
+}
+int Solution::solve(vector<int> &A, int B) {
+    int n=A.size();
+    int prefix=0;
+   ll ans=0;
+    Node *root=new Node();
+    TrieInsert(root,0);
+    prefix=0;
+    for(int i=0;i<n;i++){
+        prefix=prefix^A[i];
+        ans =(ans+TrieQuery(root,prefix,B))%M;
+        TrieInsert(root,prefix);
+    }
+    return ans;
+    
+}

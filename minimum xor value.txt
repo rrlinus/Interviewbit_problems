@@ -1,0 +1,99 @@
+Min XOR value
+Problem Description
+
+Given an integer array A of N integers, find the pair of integers in the array which have minimum XOR value. Report the minimum XOR value.
+
+
+
+Problem Constraints
+2 <= length of the array <= 100000
+0 <= A[i] <= 109
+
+
+
+Input Format
+First and only argument of input contains an integer array A.
+
+
+
+Output Format
+Return a single integer denoting minimum xor value.
+
+
+
+Example Input
+Input 1:
+
+ A = [0, 2, 5, 7]
+Input 2:
+
+ A = [0, 4, 7, 9]
+
+
+Example Output
+Output 1:
+
+ 2
+Output 2:
+
+ 3
+
+
+Example Explanation
+Explanation 1:
+
+ 0 xor 2 = 2
+
+struct Node{
+    Node *left,*right;
+    Node(){
+        left=right=NULL;
+    }
+};
+void TrieInsert(Node *root,int val){
+    for(int i=31;i>=0;i--){
+        if(val&(1<<i)){
+            if(!root->right)
+            root->right=new Node();
+            root=root->right;
+        }
+        else{
+            if(!root->left)
+            root->left=new Node();
+            root=root->left;
+        }
+    }
+}
+int TrieQuery(Node *root,int val){
+    int ans=0;
+    for(int i=31;i>=0;i--){
+        if(val&(1<<i)){
+            if(root->right)
+            root=root->right;
+            else{
+                ans +=(1<<i);
+                root=root->left;
+            }
+        }
+        else{
+            if(root->left)
+            root=root->left;
+            else{
+                ans +=(1<<i);
+                root=root->right;
+            }
+        }
+    }
+    return ans;
+}
+int Solution::findMinXor(vector<int> &A) {
+    int ans=INT_MAX,n=A.size();
+    Node *root=new Node();
+    TrieInsert(root,A[0]);
+    for(int i=1;i<n;i++){
+        ans =min(ans,TrieQuery(root,A[i]));
+        TrieInsert(root,A[i]);
+    }
+    return ans;
+}
+

@@ -1,0 +1,102 @@
+Shortest Unique Prefix
+Problem Description
+
+Given a list of N words. Find shortest unique prefix to represent each word in the list.
+
+NOTE: Assume that no word is prefix of another. In other words, the representation is always possible
+
+
+
+Problem Constraints
+1 <= Sum of length of all words <= 106
+
+
+
+Input Format
+First and only argument is a string array of size N.
+
+
+
+Output Format
+Return a string array B where B[i] denotes the shortest unique prefix to represent the ith word.
+
+
+
+Example Input
+Input 1:
+
+ A = ["zebra", "dog", "duck", "dove"]
+Input 2:
+
+A = ["apple", "ball", "cat"]
+
+
+Example Output
+Output 1:
+
+ ["z", "dog", "du", "dov"]
+Output 2:
+
+ ["a", "b", "c"]
+
+
+Example Explanation
+Explanation 1:
+
+ Shortest unique prefix of each word is:
+ For word "zebra", we can only use "z" as "z" is not any prefix of any other word given.
+ For word "dog", we have to use "dog" as "d" and "do" are prefixes of "dov".
+ For word "du", we have to use "du" as "d" is prefix of "dov" and "dog".
+ For word "dov", we have to use "dov" as "d" and do" are prefixes of "dog".  
+ 
+Explanation 2:
+
+ "a", "b" and c" are not prefixes of any other word. So, we can use of first letter of each to represent.
+
+struct Node{
+    int ct;
+    Node *hash[26];
+    Node(){
+        ct=0;
+        for(int i=0;i<26;i++){
+            hash[i]=NULL;
+        }
+    }
+};
+void TrieInsert(Node *root,string s){
+    for(int i=0;i<s.length();i++){
+        if(root->hash[s[i]-'a']){
+            root->hash[s[i]-'a']->ct +=1;
+        }
+        else{
+            root->hash[s[i]-'a']=new Node();
+            root->hash[s[i]-'a']->ct=1;
+        }
+        root=root->hash[s[i]-'a'];
+    }
+}
+string TrieQuery(Node *root,string s){
+    string ans="";
+    for(int i=0;i<s.length();i++){
+        if(root->hash[s[i]-'a']->ct==1){
+            ans.push_back(s[i]);
+            return ans;
+        }
+        ans.push_back(s[i]);
+        root=root->hash[s[i]-'a'];
+    }
+}
+vector<string> Solution::prefix(vector<string> &A) {
+    Node *root=new Node();
+    int n=A.size();
+    for(int i=0;i<n;i++){
+        TrieInsert(root,A[i]);
+    }
+    for(int i=0;i<n;i++){
+        A[i]=TrieQuery(root,A[i]);
+    }
+    return A;
+    
+    
+    
+}
