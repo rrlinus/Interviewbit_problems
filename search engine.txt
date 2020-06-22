@@ -1,0 +1,92 @@
+Search Engine
+Send Feedback
+Let us see how search engines work. Consider the following simple auto complete feature. When you type some characters in the text bar, the engine automatically gives best matching options among it's database. Your job is simple. Given an incomplete search text, output the best search result.
+Each entry in engine's database has a priority factor attached to it. We consider a result / search suggestion best if it has maximum weight and completes the given incomplete search query. For each query in the input, print the maximum weight of the string in the database, that completes the given incomplete search string. In case no such string exists, print -1.
+INPUT
+First line contains two integers n and q, which represent number of database entries and number of search queries need to be completed. Next n lines contain a string s and an integer weight, which are the database entry and it's corresponding priority.
+
+Next q lines follow, each line having a string t, which needs to be completed.
+OUTPUT
+Output q lines, each line containing the maximum possible weight of the match for given query, else -1, in case no valid result is obtained.
+CONSTRAINTS
+1 ≤ n, weight, len(s), len(t) ≤ 10^6
+1 ≤ q ≤ 10^5
+total length of all strings in database entries ≤ 10^6
+total length of all query strings ≤ 10^6
+SAMPLE INPUT
+2 1
+hackerearth 10
+hackerrank 9
+hacker
+SAMPLE OUTPUT
+10
+
+#include <bits/stdc++.h>
+using namespace std;
+struct Node{
+    int ct;
+    Node *hash[26];
+    Node(){
+        ct=0;
+        for(int i=0;i<26;i++){
+            hash[i]=NULL;
+        }
+    }
+};
+void TrieInsert(Node *root,string s,int val){
+    for(int i=0;i<s.length();i++){
+        if(root->hash[s[i]-'a']){
+            root->hash[s[i]-'a']->ct=max(root->hash[s[i]-'a']->ct,val);
+        }
+        else{
+            root->hash[s[i]-'a']=new Node();
+            root->hash[s[i]-'a']->ct=val;
+        }
+        root=root->hash[s[i]-'a'];
+    }
+}
+string TrieQuery(Node *root,string s){
+    string ans="";
+    for(int i=0;i<s.length();i++){
+        if(!root->hash[s[i]-'a'])
+            return "-1";
+        ans.push_back(s[i]);
+        root=root->hash[s[i]-'a'];
+    }
+    // while(root){
+    //     char ch_temp;
+    //     for(int i=0;i<26;i++){
+    //         if(root->hash[i] and root->hash[i]->ct>temp){
+    //             temp=root->hash[i]->ct;
+    //             ch_temp=i+'a';
+    //         }
+    //     }
+    //     if(temp!=0)
+    //     ans.push_back(ch_temp);
+    //     root=root->hash[ch_temp-'a'];
+    // }
+    
+    if(root){
+     for(int i=0;i<26;i++){
+        if(root->hash[i] and root->hash[i]->ct>temp){
+                temp=max(temp,root->hash[i]->ct);
+        }
+      }
+    }
+    return temp;//return wt if you want to renurn string then return ans;
+    
+}
+int main(){
+    int n,q,wt;
+    cin>>n>>q;
+    string s;
+    Node *root=new Node();
+    for(int i=0;i<n;i++){
+        cin>>s>>wt;
+        TrieInsert(root ,s,wt);
+    }
+    for(int i=0;i<q;i++){
+        cin>>s;
+        cout<<TrieQuery(root,s)<<endl;
+    }
+}
