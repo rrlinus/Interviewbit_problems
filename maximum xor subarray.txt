@@ -1,0 +1,81 @@
+Maximum XOR Subarray
+Send Feedback
+Given an array of n integers, find subarray whose xor is maximum.
+Input Format
+First line contains single integer n (1<=n<=1000000).
+Next line contains n space separated integers.
+Output Format
+Print xor of the subarray whose xor of all elements in subarray is maximum over all subarrays.
+Constraints
+1 <= n <= 1000000
+1 <= A[i] <=100000 
+Sample Input
+4
+1 2 3 4
+Sample Output
+7
+
+
+
+#include <bits/stdc++.h>
+using namespace std;
+struct Node{
+    Node *left,*right;
+    Node(){
+        left=right=NULL;
+    }
+};
+void TrieInsert(Node *root,int val){
+    for(int i=31;i>=0;i--){
+        if(val&(1<<i)){
+            if(!root->right)//checkingr set bit.if alredy this bit is present at that index or not
+                root->right=new Node();
+            root=root->right;
+        }
+        else{
+            if(!root->left)
+                root->left=new Node();
+            root=root->left;
+        }
+    }
+}
+int TrieQuery(Node *root,int val){
+    int ans=0;
+    for(int i=31;i>=0;i--){
+        if(val&(1<<i)){
+            if(root->left){
+                ans +=(1<<i);
+                root=root->left;
+            }
+            else{
+                root=root->right;
+            }
+        }
+        else{
+            if(root->right){
+                ans +=(1<<i);
+                root=root->right;
+            }
+            else
+                root=root->left;
+        }
+    }
+    return ans;
+}
+int main(){
+    int n;
+    cin>>n;
+    int arr[n];
+    for(int i=0;i<n;i++){
+        cin>>arr[i];
+    }
+    int prefix=0,ans=0;
+    Node *root=new Node();
+    TrieInsert(root,0);
+    for(int i=0;i<n;i++){
+        prefix=prefix^arr[i];
+        ans=max(ans,TrieQuery(root,prefix));
+        TrieInsert(root,prefix);
+    }
+    cout<<ans<<endl;
+}
