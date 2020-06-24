@@ -1,0 +1,60 @@
+Roman To Integer
+Given a string A representing a roman numeral. Convert A into integer.
+
+A is guaranteed to be within the range from 1 to 3999.
+
+NOTE: Read more details about roman numerals at Roman Numeric System
+
+
+Input Format
+
+The only argument given is string A.
+Output Format
+
+Return an integer which is the integer verison of roman numeral string.
+For Example
+
+Input 1:
+    A = "XIV"
+Output 1:
+    14
+
+Input 2:
+    A = "XX"
+Output 2:
+    20
+
+
+
+// Algorithm to convert Roman Numerals to Integer Number:
+
+// Split the Roman Numeral string into Roman Symbols (character).
+// Convert each symbol of Roman Numerals into the value it represents.
+// Take symbol one by one from starting from index 0:
+// If current value of symbol is greater than or equal to the value of next symbol, then add this value to the running total.
+// else subtract this value by adding the value of next symbol to the running total.
+// Following is the implementation of the above algorithm:
+
+int Solution::romanToInt(string A) {
+    unordered_map<char,int> mp;
+    mp['I']=1;
+    mp['V']=5;
+    mp['X']=10;
+    mp['L']=50;
+    mp['C']=100;
+    mp['D']=500;
+    mp['M']=1000;
+    int ans=0;
+    int n=A.length();
+    for(int i=0;i<n;i++){
+        if(i+1<n and mp[A[i]]<mp[A[i+1]]){
+            ans -=mp[A[i]];
+        }
+        else{
+            ans +=mp[A[i]];
+        }
+        // cout<<ans<<" ";
+    }
+    return ans;
+    
+}

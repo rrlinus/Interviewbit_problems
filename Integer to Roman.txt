@@ -1,0 +1,54 @@
+Integer To Roman
+Given an integer A, convert it to a roman numeral, and return a string corresponding to its roman numeral version
+
+ Note : This question has a lot of scope of clarification from the interviewer. Please take a moment to think of all the needed clarifications and see the expected response using "See Expected Output" For the purpose of this question, https://projecteuler.net/about=roman_numerals has very detailed explanations. 
+
+Input Format
+
+The only argument given is integer A.
+Output Format
+
+Return a string denoting roman numeral version of A.
+Constraints
+
+1 <= A <= 3999
+For Example
+
+Input 1:
+    A = 5
+Output 1:
+    "V"
+
+Input 2:
+    A = 14
+Output 2:
+    "XIV"
+
+
+// Algorithm to convert decimal number to Roman Numeral
+// Compare given number with base values in the order 
+// 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1. 
+// Base value which is just smaller or equal to the given number will be the initial base value 
+// (largest base value) .
+// Divide the number by its largest base value, the corresponding base symbol will be repeated 
+// quotient times, the remainder will then become the number for future division and repetitions.
+// The process will be repeated until the number becomes zero.
+
+
+string Solution::intToRoman(int A) {
+    vector<int> basic_rule={1,4,5,9,10,40,50,90,100,400,500,900,1000};
+    vector<string> basic_roman={"I","IV","V","IX","X","XL","L","XC","C","CD","D","CM","M"};
+    string ans="";
+    int i=basic_rule.size()-1;
+    string s;
+    while(A){
+      int max_base=A/basic_rule[i];
+      A=A%basic_rule[i];
+      while(max_base>0){
+          s +=basic_roman[i];
+          max_base--;
+      }
+      i--;
+    }
+    return s;
+}
