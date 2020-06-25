@@ -1,0 +1,42 @@
+Regroup 0's and 1's using Minimum Swaps
+Regroup 0's and 1's using Minimum Swaps
+Given a string S, count minimum no. of swaps needed to regroup 0's and 1's.
+
+After all swaps final string will look like all 0's followed by all 1's or all 1's followed by all 0's.
+
+Swap operation swaps two adjacent characters (01 -> 10, 10 -> 01, 00 -> 00 and 11 -> 11).
+
+Note:
+
+ Try to solve the problem using constant extra space. Expected time complexity is worst case O(length of S). 
+Examples:
+
+S: 000111 Answer: 0
+
+S: 1110101 Answer: 3 Explanation: 1110101 -> 1111001 -> 1111010 -> 1111100
+
+
+int Solution::solve(const string A) {
+    int ct=0;
+    int n=A.length();
+    int temp=n-1;
+    int ans;
+    for(int i=n-1;i>=0;i--){
+        if(A[i]=='0'){
+            ct +=temp-i;
+            temp--;
+        }
+    }
+    ans=ct;
+    ct=0;
+    temp=n-1;
+    for(int i=n-1;i>=0;i--){
+        if(A[i]=='1'){
+            ct +=temp-i;
+            temp--;
+        }
+    }
+    ans=min(ans,ct);
+    return ans;
+    
+}

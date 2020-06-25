@@ -1,0 +1,63 @@
+Same Format String
+Given two strings A and B. Check if B contains same characters as that of given string A and in the same order.
+
+Note
+
+ 1: A and B contain only UPPERCASE Letters.
+2: No two consecutive characters are same in A.
+3: You can only use constant amount of extra memory. 
+
+Input Format
+
+The first argument given is string A.
+The second argument given is string B.
+Output Format
+
+Return 1 if B contains same characters as that of given string A and in the same order else return 0.
+For Example
+
+Input 1:
+    A = "HIRED" 
+    B = "HHHIIIRRRRREEEEEDDDDD"
+Output 1:
+    1
+
+Input 2:
+    A = "HIRED"
+    B = "DDHHHHIIIIRRRRREEEEDDD"
+Output 2:
+    0
+
+
+int Solution::solve(const string A, const string B) {
+    int i=0,j=0;
+    int n1=A.length(),n2=B.length();
+    if(A[0]!=B[0])
+    return 0;
+    i=j=1;
+    while(i<n1 and j<n2){
+        if(A[i]==B[j]){
+            i++;
+            j++;
+        }
+        else{
+            if(A[i]==A[i-1])
+            i++;
+            else if(B[j]==B[j-1])
+            j++;
+            else
+            return 0;
+        }
+    }
+    while(i<n1){
+        if(A[i]!=A[i-1])
+        return 0;
+        i++;
+    }
+    while(j<n2){
+        if(B[j]!=B[j-1])
+        return 0;
+        j++;
+    }
+    return 1;
+}

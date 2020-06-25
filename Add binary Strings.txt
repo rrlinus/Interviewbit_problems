@@ -1,0 +1,38 @@
+Add Binary Strings
+Given two binary strings, return their sum (also a binary string).
+
+Example:
+
+a = "100"
+
+b = "11"
+Return a + b = "111".
+
+
+string Solution::addBinary(string A, string B) {
+    reverse(A.begin(),A.end());
+    reverse(B.begin(),B.end());
+    int n=A.length(),m=B.length();
+    string ans;
+    int rem=0,i;
+    for(i=0;i<n and i<m;i++){
+        ans.push_back(((A[i]-'0')+(B[i]-'0')+rem)%2 +'0');
+        rem=((A[i]-'0')+(B[i]-'0')+rem)/2;
+    }
+    while(i<n){
+        ans.push_back(((A[i]-'0')+rem)%2 +'0');
+        rem=((A[i]-'0')+rem)/2;
+        i++;
+    }
+    while(i<m){
+        ans.push_back(((B[i]-'0')+rem)%2 +'0');
+        rem=((B[i]-'0')+rem)/2;
+        i++;
+    }
+    while(rem){
+        ans.push_back(rem%2 +'0');
+        rem/=2;
+    }
+    reverse(ans.begin(),ans.end());
+    return ans;
+}

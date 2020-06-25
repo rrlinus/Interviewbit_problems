@@ -1,0 +1,44 @@
+Divisibility by 8
+Given a number A in the form of string. Check if the number is divisible by 8 or not.
+
+Return 1 if it is divisible by 8 else return 0.
+
+
+Input Format
+
+The only argument given is string A.
+Output Format
+
+Return 1 if it is divisible by 8 else return 0.
+
+Constraints
+
+1 <= length of the String <= 100000
+'0' <= A[i] <= '9'
+For Example
+
+Input 1:
+    A = "16"
+Output 1:
+    1
+
+Input 2:
+    A = "123"
+Output 2:
+    0
+
+
+int Solution::solve(string A) {
+    int n=A.length();
+    if(n==1){
+        return !((A[0]-'0')%8);
+    }
+    if(n==2){
+        return !(((A[0]-'0')*10 +(A[1]-'0'))%8);
+    }
+    if(n>=3){
+        return !(((A[n-3]-'0')*100 +(A[n-2]-'0')*10+(A[n-1]-'0'))%8);
+    }
+    
+    
+}
