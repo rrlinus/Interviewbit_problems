@@ -1,0 +1,99 @@
+Merge K Sorted Lists
+Problem Description
+
+Given a list containing head pointers of N sorted linked lists. Merge these N given sorted linked lists and return it as one sorted list.
+
+
+
+Problem Constraints
+1 <= total number of elements in given linked lists <= 100000
+
+
+
+Input Format
+First and only argument is a list containing N head pointers.
+
+
+
+Output Format
+Return a pointer to the head of the sorted linked list after merging all the given linked lists.
+
+
+
+Example Input
+Input 1:
+
+ 1 -> 10 -> 20
+ 4 -> 11 -> 13
+ 3 -> 8 -> 9
+Input 2:
+
+ 10 -> 12
+ 13
+ 5 -> 6
+
+
+Example Output
+Output 1:
+
+ 1 -> 3 -> 4 -> 8 -> 9 -> 10 -> 11 -> 13 -> 20
+Output 2:
+
+ 5 -> 6 -> 10 -> 12 ->13
+
+
+Example Explanation
+Explanation 1:
+
+ The resulting sorted Linked List formed after merging is 1 -> 3 -> 4 -> 8 -> 9 -> 10 -> 11 -> 13 -> 20.
+Explanation 2:
+
+ The resulting sorted Linked List formed after merging is 5 -> 6 -> 10 -> 12 ->13.
+
+
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+struct comp{
+   bool operator()(pair<int,ListNode*> &a,pair<int,ListNode* > &b){
+       return a.first>b.first;
+   }  
+ };
+ListNode* Solution::mergeKLists(vector<ListNode*> &A) {
+   ListNode *ans=NULL;
+   int n=A.size();
+   priority_queue<pair<int,ListNode*>,vector<pair<int,ListNode*>> ,comp> pq;
+   for(int i=0;i<n;i++){
+       if(A[i]!=NULL){
+           pq.push({A[i]->val,A[i]});
+       }
+   }
+   ListNode *head=NULL;
+   while(!pq.empty()){
+       pair<int,ListNode*> temp=pq.top();
+       if(ans==NULL){
+           pq.pop();
+           ans=temp.second;
+           head=ans;
+           if((temp.second)->next!=NULL){
+               pq.push({temp.second->next->val,temp.second->next});
+           }
+       }
+       else{
+           ans->next=temp.second;
+           pq.pop();
+           ans=ans->next;
+           if(temp.second->next!=NULL){
+               pq.push({temp.second->next->val,temp.second->next});
+           }
+       }
+   }
+   return head;
+   
+}
