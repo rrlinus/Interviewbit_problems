@@ -1,0 +1,94 @@
+Max Sum Without Adjacent Elements
+Problem Description
+
+Given a 2 x N grid of integer, A, choose numbers such that the sum of the numbers is maximum and no two chosen numbers are adjacent horizontally, vertically or diagonally, and return it.
+
+Note: You can choose more than 2 numbers.
+
+
+
+Problem Constraints
+1 <= N <= 20000
+1 <= A[i] <= 2000
+
+
+
+Input Format
+The first and the only argument of input contains a 2d matrix, A.
+
+
+
+Output Format
+Return an integer, representing the maximum possible sum.
+
+
+
+Example Input
+Input 1:
+
+ A = [   
+        [1]
+        [2]    
+     ]
+Input 2:
+
+ A = [   
+        [1, 2, 3, 4]
+        [2, 3, 4, 5]    
+     ]
+
+
+Example Output
+Output 1:
+
+ 2
+Output 2:
+
+ 8
+
+
+Example Explanation
+Explanation 1:
+
+ We will choose 2.
+Explanation 2:
+
+ We will choose 3 and 5.
+
+
+unordered_map<int,int> dp;
+//you can reduce this problrm to thief and robbers problem.we know that for ith position number of blocks
+// that is block are same for both
+int solve(vector<vector<int> > &A){
+    if(A[0].size()==1){
+        return max(A[0].back(),A[1].back());
+    }
+    if(A[0].size()==2){
+        return max(max(A[0].back(),A[1].back()),max(A[0].front(),A[1].front()));
+    }
+    if(dp.find(A[0].size()-1)!=dp.end()){
+        return dp[A[0].size()-1];
+    }
+    int x1=A[0].back();
+    int y1=A[1].back();
+    A[0].pop_back();
+    A[1].pop_back();
+    int case1=solve(A);
+    int x2=A[0].back();
+    int y2=A[1].back();
+    A[0].pop_back();
+    A[1].pop_back();
+    int case2=max(x1,y1)+solve(A);
+    A[0].push_back(x2);
+    A[1].push_back(y2);
+    A[0].push_back(x1);
+    A[1].push_back(y1);
+    dp[A[0].size()-1]=max(case1,case2);
+    
+    return dp[A[0].size()-1];
+}
+
+int Solution::adjacent(vector<vector<int> > &A) {
+    dp.clear();
+    return solve(A);
+}

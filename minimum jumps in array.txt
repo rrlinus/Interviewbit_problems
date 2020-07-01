@@ -1,0 +1,100 @@
+Given an array of non-negative integers, A, of length N, you are initially positioned at the first index of the array.
+
+Each element in the array represents your maximum jump length at that position.
+
+Return the minimum number of jumps required to reach the last index.
+
+If it is not possible to reach the last index, return -1.
+
+Input Format:
+
+The first and the only argument contains an integer array, A.
+Output Format:
+
+Return an integer, representing the answer as described in the problem statement.
+Constraints:
+
+1 <= N <= 1e6
+0 <= A[i] <= 50000
+Examples:
+
+Input 1:
+    A = [2, 1, 1]
+
+Output 1:
+    1
+
+Explanation 1:
+    The shortest way to reach index 2 is
+        Index 0 -> Index 2
+    that requires only 1 jump.
+
+Input 2:
+    A = [2,3,1,1,4]
+
+Output 2:
+    2
+
+Explanation 2:
+    The shortest way to reach index 4 is
+        Index 0 -> Index 1 -> Index 4
+    that requires 2 jumps.
+
+
+void update(vector<int> &tree,int start,int end,int index,int pos,int val)
+{
+    if(start==end)
+    {
+        tree[index]=val;
+        return;
+    }
+    int mid=start+(end-start)/2;
+    if(mid>=pos)
+    {
+        update(tree,start,mid,2*index+1,pos,val);
+    }
+    else
+    {
+        update(tree,mid+1,end,2*index+2,pos,val);
+    }
+     tree[index]=min(tree[2*index+1],tree[2*index+2]); 
+}
+
+int query(vector<int> &tree,int start,int end,int index,int left,int right)
+{
+    if(left>end || right<start)
+    {
+        return INT_MAX;
+    }
+    if(left<=start && right>=end)
+    {
+        //cout<<tree[index]<<" ";
+        return tree[index];
+        
+    }
+    int mid=start+(end-start)/2;
+    return min(query(tree,start,mid,2*index+1,left,right),query(tree,mid+1,end,2*index+2,left,right));
+    
+}
+int Solution::jump(vector<int> &A) {
+    reverse(A.begin(),A.end());
+    int n=A.size();
+    int dp[n];
+    vector<int> tree(4*n+1);
+    for(int i=0;i<4*n+1;i++){
+        tree[i]=INT_MAX;
+    }
+    update(tree,0,n-1,0,0,0);
+    dp[0]=0;
+    for(int i=1;i<n;i++){
+        dp[i]=query(tree,0,n-1,0,max(0,i-A[i]),i-1);
+        // cout<<dp[i]<<" ";
+        if(dp[i]!=INT_MAX){
+             update(tree,0,n-1,0,i,dp[i]+1);
+             dp[i]++;
+        }
+    }
+    if(dp[n-1]==INT_MAX)
+    return -1;
+    return dp[n-1];
+}
