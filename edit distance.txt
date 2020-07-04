@@ -1,0 +1,77 @@
+Edit Distance
+Problem Description
+
+Given two strings A and B, find the minimum number of steps required to convert A to B. (each operation is counted as 1 step.)
+
+You have the following 3 operations permitted on a word:
+
+Insert a character
+Delete a character
+Replace a character
+
+
+Problem Constraints
+1 <= length(A), length(B) <= 450
+
+
+
+Input Format
+The first argument of input contains a string, A.
+The second argument of input contains a string, B.
+
+
+
+Output Format
+Return an integer, representing the minimum number of steps required.
+
+
+
+Example Input
+Input 1:
+
+ A = "abad"
+ B = "abac"
+Input 2:
+
+ A = "Anshuman"
+ B = "Antihuman
+
+
+Example Output
+Output 1:
+
+ 1
+Output 2:
+
+ 2
+
+
+Example Explanation
+Exlanation 1:
+
+ A = "abad" and B = "abac"
+ After applying operation: Replace d with c. We get A = B.
+ 
+Explanation 2:
+
+ A = "Anshuman" and B = "Antihuman"
+ After applying operations: Replace s with t and insert i before h. We get A = B.
+
+
+
+int dp[455][455];
+int solve(string A,string B,int n,int m){
+    if(n==0 or m==0)
+    return max(n,m);
+    if(A[n-1]==B[m-1]){
+        return dp[n][m]=solve(A,B,n-1,m-1);
+    }
+    if(dp[n][m]>=0)
+    return dp[n][m];
+    return dp[n][m]=1+min({solve(A,B,n-1,m-1),solve(A,B,n-1,m),solve(A,B,n,m-1)});
+}
+int Solution::minDistance(string A, string B) {
+    int n=A.length(),m=B.length();
+    memset(dp,-1,sizeof(dp));
+    return solve(A,B,n,m);
+}
